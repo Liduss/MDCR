@@ -9,7 +9,8 @@
 </head>
 
 <body>
-  <h1>Muj prvni dashboard</h1>
+ <h1>Můj první dashboard</h1>
+
   <!-- FILTR -->
   <label for="yearSelect">Rok:</label>
   <select id="yearSelect">
@@ -18,12 +19,20 @@
   </select>
 
   <br><br>
-  <!-- GRAFY -->
-  <canvas id="barChart" width="600" height="300"></canvas>
-  <br><br>
-  <canvas id="lineChart" width="600" height="300"></canvas>
+
+  <!-- KONTEJNER GRAFŮ -->
+  <div class="charts">
+    <div class="chart-box">
+      <canvas id="barChart"></canvas>
+    </div>
+
+    <div class="chart-box">
+      <canvas id="lineChart"></canvas>
+    </div>
+  </div>
+
+  <!-- SCRIPT ZŮSTÁVÁ STEJNÝ -->
   <script>
-    // DATA
     const dataByYear = {
       2023: {
         categories: [120, 90, 60],
@@ -38,7 +47,6 @@
     const categoryLabels = ["Kategorie A", "Kategorie B", "Kategorie C"];
     const monthLabels = ["Q1", "Q2", "Q3", "Q4"];
 
-    // SLOUPCOVÝ GRAF
     const barChart = new Chart(
       document.getElementById("barChart"),
       {
@@ -46,14 +54,17 @@
         data: {
           labels: categoryLabels,
           datasets: [{
-            label: "Hodnota podle kategorii",
+            label: "Hodnota podle kategorií",
             data: dataByYear[2024].categories
           }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false
         }
       }
     );
 
-    // ČÁROVÝ GRAF
     const lineChart = new Chart(
       document.getElementById("lineChart"),
       {
@@ -61,14 +72,17 @@
         data: {
           labels: monthLabels,
           datasets: [{
-            label: "Trend v case",
+            label: "Trend v čase",
             data: dataByYear[2024].trend
           }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false
         }
       }
     );
 
-    // REAKCE NA ZMĚNU FILTRU
     document.getElementById("yearSelect").addEventListener("change", function () {
       const selectedYear = this.value;
 
