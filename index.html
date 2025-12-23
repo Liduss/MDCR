@@ -32,18 +32,18 @@
   </div>
 
   <!-- SCRIPT ZŮSTÁVÁ STEJNÝ -->
-  <script>
-    const dataByYear = {
-      2023: {
-        categories: [120, 90, 60],
-        trend: [30, 50, 40, 70]
-      },
-      2024: {
-        categories: [150, 110, 80],
-        trend: [40, 60, 55, 90]
-      }
-    };
 
+  <script>
+  let dataByYear = {};
+
+  fetch("data.json")
+    .then(response => response.json())
+    .then(data => {
+      dataByYear = data;
+      initCharts();
+    });
+
+  function initCharts() {
     const categoryLabels = ["Kategorie A", "Kategorie B", "Kategorie C"];
     const monthLabels = ["Q1", "Q2", "Q3", "Q4"];
 
@@ -55,7 +55,7 @@
           labels: categoryLabels,
           datasets: [{
             label: "Hodnota podle kategorií",
-            data: dataByYear[2024].categories
+            data: dataByYear["2024"].categories
           }]
         },
         options: {
@@ -73,7 +73,7 @@
           labels: monthLabels,
           datasets: [{
             label: "Trend v čase",
-            data: dataByYear[2024].trend
+            data: dataByYear["2024"].trend
           }]
         },
         options: {
@@ -95,7 +95,8 @@
       barChart.update();
       lineChart.update();
     });
-  </script>
+  }
+</script>
 
 </body>
 </html>
