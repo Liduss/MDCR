@@ -3,9 +3,55 @@
 <head>
   <meta charset="UTF-8">
   <title>Můj první dashboard</title>
+
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
+
 <body>
-  <h1>Ahoj 👋</h1>
-  <p>Tohle je můj první webový dashboard.</p>
+  <h1>Můj první dashboard</h1>
+
+  <!-- FILTR -->
+  <label for="yearSelect">Rok:</label>
+  <select id="yearSelect">
+    <option value="2023">2023</option>
+    <option value="2024" selected>2024</option>
+  </select>
+
+  <br><br>
+
+  <!-- GRAF -->
+  <canvas id="myChart" width="600" height="300"></canvas>
+
+  <script>
+    // DATA (zatím napevno)
+    const dataByYear = {
+      2023: [120, 90, 60],
+      2024: [150, 110, 80]
+    };
+
+    const labels = ["Kategorie A", "Kategorie B", "Kategorie C"];
+
+    const ctx = document.getElementById("myChart");
+
+    let chart = new Chart(ctx, {
+      type: "bar",
+      data: {
+        labels: labels,
+        datasets: [{
+          label: "Hodnota",
+          data: dataByYear[2024]
+        }]
+      }
+    });
+
+    // REAKCE NA ZMĚNU FILTRU
+    document.getElementById("yearSelect").addEventListener("change", function () {
+      const selectedYear = this.value;
+      chart.data.datasets[0].data = dataByYear[selectedYear];
+      chart.update();
+    });
+  </script>
+
 </body>
 </html>
