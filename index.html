@@ -20,35 +20,69 @@
 
   <br><br>
 
-  <!-- GRAF -->
-  <canvas id="myChart" width="600" height="300"></canvas>
+  <!-- GRAFY -->
+  <canvas id="barChart" width="600" height="300"></canvas>
+  <br><br>
+  <canvas id="lineChart" width="600" height="300"></canvas>
 
   <script>
-    // DATA (zatím napevno)
+    // DATA
     const dataByYear = {
-      2023: [120, 90, 60],
-      2024: [150, 110, 80]
+      2023: {
+        categories: [120, 90, 60],
+        trend: [30, 50, 40, 70]
+      },
+      2024: {
+        categories: [150, 110, 80],
+        trend: [40, 60, 55, 90]
+      }
     };
 
-    const labels = ["Kategorie A", "Kategorie B", "Kategorie C"];
+    const categoryLabels = ["Kategorie A", "Kategorie B", "Kategorie C"];
+    const monthLabels = ["Q1", "Q2", "Q3", "Q4"];
 
-    const ctx = document.getElementById("myChart");
-
-    let chart = new Chart(ctx, {
-      type: "bar",
-      data: {
-        labels: labels,
-        datasets: [{
-          label: "Hodnota",
-          data: dataByYear[2024]
-        }]
+    // SLOUPCOVÝ GRAF
+    const barChart = new Chart(
+      document.getElementById("barChart"),
+      {
+        type: "bar",
+        data: {
+          labels: categoryLabels,
+          datasets: [{
+            label: "Hodnota podle kategorií",
+            data: dataByYear[2024].categories
+          }]
+        }
       }
-    });
+    );
+
+    // ČÁROVÝ GRAF
+    const lineChart = new Chart(
+      document.getElementById("lineChart"),
+      {
+        type: "line",
+        data: {
+          labels: monthLabels,
+          datasets: [{
+            label: "Trend v čase",
+            data: dataByYear[2024].trend
+          }]
+        }
+      }
+    );
+
     // REAKCE NA ZMĚNU FILTRU
     document.getElementById("yearSelect").addEventListener("change", function () {
       const selectedYear = this.value;
-      chart.data.datasets[0].data = dataByYear[selectedYear];
-      chart.update();
+
+      barChart.data.datasets[0].data =
+        dataByYear[selectedYear].categories;
+
+      lineChart.data.datasets[0].data =
+        dataByYear[selectedYear].trend;
+
+      barChart.update();
+      lineChart.update();
     });
   </script>
 
